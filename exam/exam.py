@@ -54,7 +54,7 @@ def calc_hypotenuse(x, y):
 # 底辺x,斜辺vの直角三角形の残り1つの辺の長さを返してください
 def calc_subtense(x, v):
     import math
-    return math.sqrt(abs(x**2 - v **2))
+    return math.sqrt(abs(x**2 - v ** 2))
 
 
 # 三辺の長さがそれぞれx,y,zの三角形の面積を返してください

@@ -27,6 +27,29 @@ class Ball:
                 return True
         return False
 
+    def hit_block(self):
+        self.canvas.move(self.id, self.x, self.y)
+        pos = self.canvas.coords(self.id)
+        block_pos = self.canvas.coords(self.block.id)
+        if pos[1]<=block_pos[3] and pos[1] > block_pos[1]:
+            if pos[0]< block_pos[2]-3 and pos[0] > block_pos[0]+3:
+                if self.y / abs(self.y) == -1:
+                    self.y = abs(self.y)
+        if pos[3]>=block_pos[1] and pos[3] < block_pos[3]:
+            if pos[0]<block_pos[2]-3 and pos[0] > block_pos[0]+3:
+                if self.y/ abs(self.y) == 1:
+                    self.y = abs(self.y) * -1
+
+        if pos[0] <= block_pos[2] and pos[0] > block_pos[0]:
+            if pos[1] < block_pos[3]-2 and pos[1] > block_pos[1]+2:
+                if self.x /abs(self.x)==-1:
+                    self.x = abs(self.x)
+
+        if pos[2] >= block_pos[0] and pos[2] < block_pos[2]:
+            if pos[1] < block_pos[3]-2 and pos[1] > block_pos[1]+2:
+                if self.x /abs(self.x) == 1:
+                    self.x = abs(self.x) * -1
+
 
     def draw(self):
         self.canvas.move(self.id, self.x, self.y)
@@ -50,13 +73,13 @@ class Ball:
     def start(self, event):
         if self.y == 0:
             self.x = random.choice((-3, -2, -1, 1, 2, 3))
-            self.y = -4
+            self.y = -3
 
 
 class Paddle:
     def __init__(self, canvas, color):
         self.canvas = canvas
-        self.id = canvas.create_rectangle(0, 0, 100, 10, fill=color)
+        self.id = canvas.create_rectangle(0, 0, 500, 10, fill=color)
         self.canvas.move(self.id, 200, 400)
         self.x = 0
         self.canvas_width = self.canvas.winfo_width()
@@ -73,16 +96,17 @@ class Paddle:
             self.x = 0
 
     def turn_left(self, event):
-        self.x = -3
+        self.x = -5
 
     def turn_right(self, event):
-        self.x = 3
+        self.x = 5
 
 
 class Block:
     def __init__(self, canvas, color):
         self.canvas = canvas
-        self.id = canvas.create_rectangle(100, 10, 150, 25, fill=color)
+        self.id = canvas.create_rectangle(0, 0, 100, 50, fill=color)
+        self.canvas.move(self.id, 10, 10)
 
 
 class Gameover:
@@ -101,6 +125,7 @@ tk.update()
 
 game_over_text = canvas.create_text(250, 200, text='GAME OVER!', state='hidden',font=("Purisa",50))
 game_start_text = canvas.create_text(250,200, text='Press space!', state='hidden',font=("purisa",50))
+
 paddle = Paddle(canvas, 'blue')
 block = Block(canvas, 'black')
 ball = Ball(canvas, paddle, block, 'red')
@@ -113,6 +138,7 @@ def update():
         else:
             canvas.itemconfig(game_start_text, state='hidden')
         ball.draw()
+        ball.hit_block()
         paddle.draw()
         tk.update_idletasks()
         tk.update()
