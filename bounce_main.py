@@ -1,7 +1,5 @@
 # スペースを押せばゲームが始まるプログラムを追加した
 # Gameover画面とpress space画面を表示するプログラムを追加した
-#block
-
 from tkinter import *
 import random
 
